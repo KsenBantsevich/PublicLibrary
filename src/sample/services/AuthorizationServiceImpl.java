@@ -1,6 +1,8 @@
 package sample.services;
 
+import sample.entity.PrintEdition;
 import sample.entity.Profile;
+import sample.entity.VisitorRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,24 @@ import java.util.List;
 public class AuthorizationServiceImpl implements AuthorizationService {
     List<Profile> listOfProfiles;
     Profile visitor;
+
+    @Override
+    public void addProfile(String lastName, String name, String login, String password, String mail, String role) {
+        Profile visitor = new Profile(lastName,name,login,password,mail);
+        if (VisitorRole.VISITOR.toString().equals(role))
+        {
+            visitor.setRole(VisitorRole.OWNER);
+        }
+        else
+        {
+            visitor.setRole(VisitorRole.OWNER);
+        }
+        listOfProfiles.add(visitor);
+    }
+
+    public void deleteProfile(Profile profile){
+        listOfProfiles.remove(profile);
+    }
 
     public Profile authorization(String login, String password)
     {

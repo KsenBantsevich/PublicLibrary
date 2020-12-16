@@ -1,7 +1,6 @@
 package sample.UI;
 
 import sample.entity.PrintEdition;
-import sample.entity.Profile;
 import sample.entity.VisitorRole;
 import sample.services.*;
 
@@ -9,29 +8,156 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+
 public class UI {
     AuthorizationServiceImpl authorizationService;
     BookBorrowingServiceImpl bookBorrowingService;
     BookServiceImpl bookService;
     ServiceFormImpl serviceForm;
 
+    public void library(){
+        JFrame frame = new JFrame();
+        frame.setSize(500,400);
+        JPanel jpanel1 = new JPanel();
+        jpanel1.setLayout(new BoxLayout(jpanel1,BoxLayout.X_AXIS));
+        JButton buttonEditBook = new JButton();
+        buttonEditBook.setText("Вход в библиотеку");
+        buttonEditBook.setSize(400,50);
+        buttonEditBook.addActionListener(actionEvent ->
+        {
+            entry();
+        });
+        JButton  buttonAddBook = new JButton();
+        buttonAddBook.setText("Регистрация");
+        buttonAddBook.setSize(400,50);
+        buttonAddBook.addActionListener(actionEvent -> {
+            addProfile();
+        });
+
+        JButton  buttonDeleteBook = new JButton();
+        buttonDeleteBook.setText("Удалить учетную запись");
+        buttonDeleteBook.setSize(400,50);
+        /*buttonDeleteBook.addActionListener(actionEvent -> {
+         //ToDo
+            deleteProfile();
+        });*/
+
+        jpanel1.add(buttonEditBook);
+        jpanel1.add(buttonAddBook);
+        jpanel1.add(buttonDeleteBook);
+        frame.add(jpanel1);
+        frame.setVisible(true);
+
+    }
+
+    public void addProfile()
+    {
+        JFrame jframe = new JFrame();
+        jframe.setSize(600,400);
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BoxLayout(jPanel,BoxLayout.Y_AXIS));
+
+        JLabel labelLastName = new JLabel("Фамилия");
+        labelLastName.setSize(100,50);
+        JTextField textFieldName = new JTextField();
+        textFieldName.setMaximumSize(new Dimension(100,50));
+
+        JLabel labelName = new JLabel("Имя");
+        labelLastName.setSize(100,50);
+        JTextField textFieldLastName = new JTextField();
+        textFieldLastName.setMaximumSize(new Dimension(100,50));
+
+        JLabel labelLogin= new JLabel("Login");
+        labelLogin.setSize(100,50);
+        JTextField textFieldLogin = new JTextField();
+        textFieldLogin.setMaximumSize(new Dimension(100,50));
+
+        JLabel labelPassword= new JLabel("Password");
+        labelPassword.setSize(100,50);
+        JTextField textFieldPassword = new JTextField();
+        textFieldPassword.setMaximumSize(new Dimension(100,50));
+
+
+        JLabel labelMail= new JLabel("Почта");
+        labelMail.setSize(100,50);
+        JTextField textFieldMail = new JTextField();
+        textFieldMail.setMaximumSize(new Dimension(100,50));
+        ArrayList<JRadioButton> radioButtons= new ArrayList<>();
+
+        JRadioButton radioButton1 = new JRadioButton();
+        radioButton1.setText("OWNER");
+
+        JRadioButton radioButton2 = new JRadioButton();
+        radioButton2.setText("VISITOR");
+
+        JButton button = new JButton("Зарегистрироваться");
+        button.setMaximumSize(new Dimension(100,50));
+
+        button.addActionListener(actionEvent ->
+        {
+            jframe.dispose();
+            JRadioButton temp = new JRadioButton();
+            for(JRadioButton radioButton:radioButtons)
+            {
+                if(radioButton.isSelected())
+                {
+                    temp = radioButton;
+                }
+            }
+            if(textFieldName.getText().equals("") || textFieldLastName.getText().equals("") || textFieldMail.getText().equals(""))
+            {
+                System.out.println("Ошибка");
+            }
+            else{
+
+                authorizationService.addProfile(textFieldLastName.getText(),textFieldName.getText(),textFieldLogin.getText(),textFieldPassword.getText(),textFieldMail.getText(), temp.getText());
+                entry();
+            }
+
+        });
+        JButton buttonBack = new JButton("Назад");
+        buttonBack.setSize(100,50);
+        buttonBack.addActionListener(actionEvent ->
+        {
+            jframe.dispose();
+            library();
+        });
+
+        jPanel.add(labelName);
+        jPanel.add(textFieldName);
+        jPanel.add(labelLastName);
+        jPanel.add(textFieldLastName);
+        jPanel.add(labelMail);
+        jPanel.add(textFieldMail);
+        jPanel.add(labelLogin);
+        jPanel.add(textFieldLogin);
+        jPanel.add(labelPassword);
+        jPanel.add(textFieldPassword);
+        jPanel.add(radioButton1);
+        jPanel.add(radioButton2);
+        jPanel.add(button);
+        jPanel.add(buttonBack);
+        jframe.add(jPanel);
+        jframe.setVisible(true);
+    }
+
     public void entry()
     {
         JFrame jframe = new JFrame();
-        jframe.setSize(1000, 500);
+        jframe.setSize(500, 300);
         JPanel jpanel = new JPanel();
         jpanel.setLayout(new BoxLayout(jpanel, BoxLayout.LINE_AXIS));
         JLabel jlabel = new JLabel();
         jlabel.setText("Login");
         JTextField jTextField = new JTextField();
-        jTextField.setMaximumSize(new Dimension(400, 50));
+        jTextField.setMaximumSize(new Dimension(300, 50));
         JLabel jlabelPassword = new JLabel();
-        jlabelPassword.setText("Password");
+        jlabelPassword.setText("Пароль");
         JTextField jTextField1 = new JTextField();
-        jTextField1.setMaximumSize(new Dimension(400, 50));
+        jTextField1.setMaximumSize(new Dimension(300, 50));
         JButton jButton = new JButton();
-        jButton.setMaximumSize(new Dimension(400, 50));
-        jButton.setText("Log in");
+        jButton.setMaximumSize(new Dimension(100, 50));
+        jButton.setText("Войти");
         jButton.addActionListener(actionEvent ->
         {
 
@@ -55,7 +181,7 @@ public class UI {
 
     public void adminWindow()
     {
-        if(VisitorRole.ROLE_OWNER == authorizationService.getVisitor().getRole())
+        if(VisitorRole.OWNER == authorizationService.getVisitor().getRole())
         {
             JFrame frame = new JFrame();
             frame.setSize(800,500);
@@ -82,8 +208,6 @@ public class UI {
                 deleteWindow();
             });
 
-
-
             jpanel1.add(buttonEditBook);
             jpanel1.add(buttonAddBook);
             jpanel1.add(buttonDeleteBook);
@@ -91,7 +215,7 @@ public class UI {
             frame.setVisible(true);
 
         }
-        else if(VisitorRole.ROLE_VISITOR == authorizationService.getVisitor().getRole())
+        else if(VisitorRole.VISITOR == authorizationService.getVisitor().getRole())
         {
             JFrame frame = new JFrame();
             frame.setSize(1000,500);

@@ -19,8 +19,8 @@ public class PublicLibrary {
 
         Profile visitor = new Profile("Ксения","Банцевич", "111","111","ggg@gmail");
         Profile visitor1 = new Profile("Анна","Грицук","222","222","ааа@gmail.com");
-        visitor.setRole(VisitorRole.ROLE_OWNER);
-        visitor1.setRole(VisitorRole.ROLE_VISITOR);
+        visitor.setRole(VisitorRole.OWNER);
+        visitor1.setRole(VisitorRole.VISITOR);
         ArrayList<Profile> visitorArrayList = new ArrayList<>();
         visitorArrayList.add(visitor);
         visitorArrayList.add(visitor1);
@@ -35,13 +35,12 @@ public class PublicLibrary {
         bookArrayList.add(arc);
         bookService.setListOfBooks(bookArrayList);
 
-
         ui = new UI();
         ui.setAuthorizationService(authorizationService);
         ui.setBookBorrowingService(bookBorrowingService);
         ui.setBookService(bookService);
         ui.setServiceForm(serviceForm);
-        ui.entry();
+        ui.library();
     }
     public UI getUi() {
         return ui;
