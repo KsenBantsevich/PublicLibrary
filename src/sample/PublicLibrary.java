@@ -1,5 +1,6 @@
 package sample;
 import sample.UI.UI;
+import sample.entity.PrintEdition;
 import sample.entity.Profile;
 import sample.entity.VisitorRole;
 import sample.services.*;
@@ -18,13 +19,23 @@ public class PublicLibrary {
 
         Profile visitor = new Profile("Ксения","Банцевич", "111","111","ggg@gmail");
         Profile visitor1 = new Profile("Анна","Грицук","222","222","ааа@gmail.com");
-
         visitor.setRole(VisitorRole.ROLE_OWNER);
         visitor1.setRole(VisitorRole.ROLE_VISITOR);
         ArrayList<Profile> visitorArrayList = new ArrayList<>();
         visitorArrayList.add(visitor);
         visitorArrayList.add(visitor1);
         authorizationService.setListOfProfiles(visitorArrayList);
+
+        PrintEdition master = new PrintEdition("Мастер и Маргарита","М.А.Булгаков", 1966);
+        PrintEdition picture = new PrintEdition("Портрет Дориана Грея","Оскар Уайлд",1890);
+        PrintEdition arc = new PrintEdition("Триумфальная арка","Эрих Мария Ремарк",1946);
+        ArrayList<PrintEdition> bookArrayList = new ArrayList<>();
+        bookArrayList.add(master);
+        bookArrayList.add(picture);
+        bookArrayList.add(arc);
+        bookService.setListOfBooks(bookArrayList);
+
+
         ui = new UI();
         ui.setAuthorizationService(authorizationService);
         ui.setBookBorrowingService(bookBorrowingService);

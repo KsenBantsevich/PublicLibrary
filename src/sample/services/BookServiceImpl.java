@@ -10,7 +10,7 @@ public class BookServiceImpl implements BookService {
     PrintEdition book;
 
 
-    public void set(List<PrintEdition> listOfBooks) {
+    public void setListOfBooks(List<PrintEdition> listOfBooks) {
         this.listOfBooks = listOfBooks;
     }
 
@@ -36,4 +36,25 @@ public class BookServiceImpl implements BookService {
     public void checkIfExists(String bookName) {
 
     }
+
+    @Override
+    public void editPrintEdition(PrintEdition ourPrintEdition, String bookName, String author, Integer publishingYear) {
+        for(PrintEdition printEdition:listOfBooks)
+        {
+            if(ourPrintEdition.equals(printEdition))
+            {
+                ourPrintEdition.setBookName(bookName);
+                ourPrintEdition.setAuthor(author);
+                ourPrintEdition.setPublishingYear(publishingYear);
+
+            }
+        }
+    }
+
+    @Override
+    public void deletePrintEdition(PrintEdition printEdition) {
+        listOfBooks.remove(printEdition);
+
+    }
+
 }
