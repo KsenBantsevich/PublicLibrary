@@ -1,7 +1,7 @@
 package sample.entity;
 
 public class Profile {
-    private String lastName;
+    private String name;
     private String firstName;
     private VisitorRole role;
     private String login;
@@ -13,7 +13,7 @@ public class Profile {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = lastName;
         this.mail = mail;
 
     }
@@ -32,11 +32,11 @@ public class Profile {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.name = lastName;
     }
 
     public String getLastName() {
-        return lastName;
+        return name;
     }
 
     public void setRole(VisitorRole role) {
@@ -71,5 +71,11 @@ public class Profile {
         return mail;
     }
 
+    public StorageRecord getStorageRecord() {
+        return storageRecord;
+    }
 
+    public void setStorageRecord(StorageRecord storageRecord) {
+        this.storageRecord = storageRecord;
+    }
 }

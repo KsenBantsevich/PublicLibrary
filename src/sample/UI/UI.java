@@ -1,6 +1,7 @@
 package sample.UI;
 
 import sample.entity.PrintEdition;
+import sample.entity.StorageRecord;
 import sample.entity.VisitorRole;
 import sample.services.*;
 
@@ -222,26 +223,26 @@ public class UI {
             JPanel jpanel1 = new JPanel();
             jpanel1.setLayout(new BoxLayout(jpanel1,BoxLayout.X_AXIS));
             JButton buttonFrameManagmentProduct= new JButton();
-            buttonFrameManagmentProduct.setText("Show number of products");
+            buttonFrameManagmentProduct.setText("Взять книгу");
             buttonFrameManagmentProduct.setSize(1000,50);
             buttonFrameManagmentProduct.addActionListener(actionEvent ->
             {
 
-                // frameShowNumber.showNumber();
+                tookBook();
 
             });
             JButton buttonShowOverdueProduct = new JButton();
-            buttonShowOverdueProduct.setText("Show overdue products");
+            buttonShowOverdueProduct.setText("Сдать книгу");
             buttonShowOverdueProduct.setSize(1000,50);
             buttonShowOverdueProduct.addActionListener(actionEvent -> {
 
-                //frameProduct.buttonIsPressed(buttonShowOverdueProduct.getText());
+                returnBook();
             });
             JButton buttonManagementProduct = new JButton();
-            buttonManagementProduct.setText("Show management products");
+            buttonManagementProduct.setText("Оплатить задолженность");
             buttonManagementProduct.setSize(1000,50);
             buttonManagementProduct.addActionListener(actionEvent -> {
-                //frameManagementProduct.buttonIsPressed(buttonManagementProduct.getText());
+                money();
             });
 
 
@@ -451,6 +452,136 @@ public class UI {
         jframe.add(jPanel);
         jframe.setVisible(true);
     }
+
+
+    public void tookBook(){
+        JFrame frame = new JFrame();
+        frame.setSize(700,500);
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BoxLayout(jPanel,BoxLayout.Y_AXIS));
+        JComboBox<String> bookJComboBox= new JComboBox<>();
+        bookJComboBox.setMaximumSize(new Dimension(400,50));
+        for (PrintEdition books: bookService.getListOfBooks())
+        {
+            bookJComboBox.addItem(books.getBookName());
+        }
+        JButton button = new JButton("Взять в пользование");
+        button.setSize(100,50);
+        button.addActionListener(actionEvent ->
+        {
+            for (PrintEdition books: bookService.getListOfBooks())
+            {
+                if(bookJComboBox.getSelectedItem().toString().equals(books.getBookName()))
+                {
+                    frame.dispose();
+                    bookBorrowingService.takeBook(books);
+
+                }
+
+            }
+        });
+        JButton buttonBack = new JButton("Назад");
+        buttonBack.setSize(100,50);
+        buttonBack.addActionListener(actionEvent ->
+        {
+            frame.dispose();
+            adminWindow();
+        });
+        jPanel.add(bookJComboBox);
+        jPanel.add(button);
+        jPanel.add(buttonBack);
+        frame.add(jPanel);
+        frame.setVisible(true);
+    }
+
+    public void returnBook(){
+        JFrame frame = new JFrame();
+        frame.setSize(700,500);
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BoxLayout(jPanel,BoxLayout.Y_AXIS));
+        JComboBox<String> bookJComboBox= new JComboBox<>();
+        bookJComboBox.setMaximumSize(new Dimension(400,50));
+        for (PrintEdition books: bookService.getListOfBooks())
+        {
+            bookJComboBox.addItem(books.getBookName());
+        }
+        JButton button = new JButton("Вернуть книгу в библиотеку");
+        button.setSize(100,50);
+        button.addActionListener(actionEvent ->
+        {
+            for (PrintEdition books: bookService.getListOfBooks())
+            {
+                if(bookJComboBox.getSelectedItem().toString().equals(books.getBookName()))
+                {
+                    frame.dispose();
+                    bookBorrowingService.returnBook(books);
+
+                }
+
+            }
+        });
+        JButton buttonBack = new JButton("Назад");
+        buttonBack.setSize(100,50);
+        buttonBack.addActionListener(actionEvent ->
+        {
+            frame.dispose();
+            adminWindow();
+        });
+        jPanel.add(bookJComboBox);
+        jPanel.add(button);
+        jPanel.add(buttonBack);
+        frame.add(jPanel);
+        frame.setVisible(true);
+    }
+
+
+    public void money(){
+        JFrame jframe = new JFrame();
+        jframe.setSize(500, 300);
+        JPanel jpanel = new JPanel();
+        jpanel.setLayout(new BoxLayout(jpanel, BoxLayout.LINE_AXIS));
+        JLabel jlabel = new JLabel();
+        jlabel.setText("Задолженность");
+        JTextField jTextField = new JTextField();
+        jTextField.setMaximumSize(new Dimension(300, 50));
+
+        JButton button = new JButton("Оплатить задолженность");
+        button.setSize(100,50);
+        button.addActionListener(actionEvent ->
+        {
+            money();
+        });
+        JButton buttonBack = new JButton("Назад");
+        buttonBack.setSize(100,50);
+        buttonBack.addActionListener(actionEvent ->
+        {
+            jframe.dispose();
+            adminWindow();
+        });
+
+        jpanel.add(jlabel);
+        jpanel.add(jTextField);
+        jpanel.add(button);
+        jpanel.add(buttonBack);
+        jframe.add(jpanel);
+        jframe.setVisible(true);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public BookBorrowingService getBookBorrowingService() {
         return bookBorrowingService;

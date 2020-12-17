@@ -1,5 +1,7 @@
 package sample.entity;
 
 public enum VisitorRole {
-    ROLE_VISITOR, ROLE_OWNER
+    VISITOR, OWNER;
+
+    private String visitorRole;
 }
