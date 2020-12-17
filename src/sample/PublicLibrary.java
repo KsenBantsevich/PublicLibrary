@@ -34,7 +34,7 @@ public class PublicLibrary {
         bookArrayList.add(picture);
         bookArrayList.add(arc);
         bookService.setListOfBooks(bookArrayList);
-
+        bookBorrowingService.mail(visitorArrayList);
         ui = new UI();
         ui.setAuthorizationService(authorizationService);
         ui.setBookBorrowingService(bookBorrowingService);
